@@ -1,6 +1,12 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
+import numpy as np
+import locale
+from PIL import Image
+import time
+from dateutil.relativedelta import relativedelta
+import calendar
 
 def formatar_numero(numero):
     return f'R$ {numero:,.2f}'.replace('.', '#').replace(',', '.').replace('#', ',')
@@ -8,15 +14,17 @@ def formatar_numero(numero):
 def calcular_parcelas_numero(valor_total, numero_parcelas, taxa_juros_mensal, data_inicio, periodicidade):
     valor_parcela = valor_total * (taxa_juros_mensal / (1 - (1 + taxa_juros_mensal)**(-numero_parcelas)))
     saldo_devedor = valor_total
+
     if valor_parcela > saldo_devedor:
         valor_parcela = saldo_devedor
 
     juros_total = valor_parcela * numero_parcelas - valor_total
 
     datas_vencimento = [data_inicio]
+
     if periodicidade == 'Mensal':
         for i in range(1, numero_parcelas):
-            datas_vencimento.append(datas_vencimento[i-1] + timedelta(days=30))
+            datas_vencimento.append(data_inicio + relativedelta(months=i))
     elif periodicidade == 'Quinzenal':
         for i in range(1, numero_parcelas):
             datas_vencimento.append(datas_vencimento[i-1] + timedelta(days=15))
