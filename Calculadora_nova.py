@@ -5,7 +5,7 @@ import numpy as np
 import locale
 from PIL import Image
 import json
-from sqlalchemy import create_engine
+# from sqlalchemy import create_engine
 import os
 import time
 from dateutil.relativedelta import relativedelta
@@ -47,13 +47,13 @@ def get_log_user():
 
     return usuarios_comuns + [robo] + [tempo]
 
-def post_log_user(logs):
-    columns = ['usuario','departamento','nome_robo','criado_em']
-    df_logs = pd.DataFrame([logs],columns = columns)
-    df_logs['criado_em'] = pd.to_datetime(df_logs['criado_em'])
-    engine = create_engine(f'mssql+pymssql://paulo.medeiros:admin123@10.10.100.12/dbJestor')
-    df_logs.to_sql('tb_log_bots',con = engine,if_exists='append',index=False,schema='dbo')
-    engine.dispose()
+# def post_log_user(logs):
+#     columns = ['usuario','departamento','nome_robo','criado_em']
+#     df_logs = pd.DataFrame([logs],columns = columns)
+#     df_logs['criado_em'] = pd.to_datetime(df_logs['criado_em'])
+#     engine = create_engine(f'mssql+pymssql://paulo.medeiros:admin123@10.10.100.12/dbJestor')
+#     df_logs.to_sql('tb_log_bots',con = engine,if_exists='append',index=False,schema='dbo')
+#     engine.dispose()
 
 
 
